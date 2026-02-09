@@ -1,5 +1,6 @@
-// controllers/taskController.js
+
 const Task = require("../models/tasks");
+
 
 exports.getTasks = async (req, res) => {
   try {
@@ -9,8 +10,8 @@ exports.getTasks = async (req, res) => {
 
     const { status, search } = req.query;
 
-    // Build filter object
-    let filter = { user: req.user.id }; // assuming auth middleware
+
+    let filter = { user: req.user.id };
 
     if (status) {
       filter.status = status;
@@ -45,3 +46,28 @@ exports.getTasks = async (req, res) => {
     });
   }
 };
+
+
+// exports.createTask = async (req, res) => {
+//   try {
+//     const { title, description, status } = req.body;
+
+//     if (!title) {
+//       return res.status(400).json({ message: "Title is required" });
+//     }
+
+//     const task = await Task.create({
+//       title,
+//       description,
+//       status,
+//       user: req.user.id,
+//     });
+
+//     res.status(201).json({
+//       success: true,
+//       task,
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
