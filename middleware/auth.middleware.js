@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const authMiddleware = (req, res, next) => {
   let token;
 
@@ -14,9 +16,14 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded.userId;
+
+    // IMPORTANT: keep req.user consistent
+    req.user = { id: decoded.userId };
+
     next();
   } catch (error) {
     return res.status(401).json({ message: "Invalid token" });
   }
 };
+
+module.exports = authMiddleware; 
