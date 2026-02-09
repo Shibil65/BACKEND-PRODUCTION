@@ -4,6 +4,6 @@ const { getTasks } =  require("../controllers/task.Controller");
 
 const router = express.Router();
 
-router.get("/tasks",protect, getTasks);
+router.get("/tasks", getTasks);
 
 module.exports = router;
