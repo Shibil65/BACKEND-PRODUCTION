@@ -2,8 +2,11 @@ require("dotenv").config()
 
 const app = require("../src/app")
 const connectDB = require("../config/db")
+const errorHandler = require("../middleware/error.middleware");
 
 connectDB();
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 5000;
 

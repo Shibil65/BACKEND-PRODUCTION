@@ -1,0 +1,6 @@
+{"level":"info","message":"GET /api/tasks?page=1&limit=5 200 25.934 ms","timestamp":"2026-02-09 14:01:09"}
+{"level":"error","message":"Test error for logging","method":"GET","stack":"Error: Test error for logging\n    at exports.getTasks (D:\\React-Backend\\BACKEND-PRODUCTION\\controllers\\task.controller.js:44:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2026-02-09 14:01:09","url":"/api/tasks?page=1&limit=5"}
+{"level":"info","message":"GET /api/tasks?page=1&limit=5 200 26.843 ms","timestamp":"2026-02-09 14:04:20"}
+{"level":"info","message":"GET /api/tasks?page=1&limit=5 200 10.462 ms","timestamp":"2026-02-09 14:04:28"}
+{"level":"info","message":"POST /api/login 404 12.107 ms","timestamp":"2026-02-09 14:05:29"}
+{"level":"info","message":"POST /api/auth/login 200 120.377 ms","timestamp":"2026-02-09 14:06:14"}
