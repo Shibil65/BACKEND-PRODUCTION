@@ -1,49 +1,80 @@
-const User = require("../models/user.model")
-const jwt = require("jsonwebtoken")
+const User = require("../models/user.model");
+const jwt = require("jsonwebtoken");
 
-exports.register = async(req,res) => {
-    const { name,email,password } = req.body;
+exports.register = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
 
-    const nameExists = await User.findOne({name});
-    if (nameExists) {
-        return res.status(400).json({message: "User already exists"})
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        message: "Email already registered"
+      });
     }
 
-    const userExists = await User.findOne({email});
-    if (userExists) {
-        return res.status(400).json({message: "User already exists"})
-    }
 
-    const user = await User.create({ name,email,password })
+    await User.create({
+      name,
+      email,
+      password 
+    });
 
     res.status(201).json({
-        message:"User registered successfully"
+      success: true,
+      message: "User registered successfully"
     });
+
+  } catch (error) {
+  console.error("AUTH ERROR:", error);
+  res.status(500).json({
+    success: false,
+    message: "Server error"
+  });
+}
 };
 
-exports.login = async(req,res) => {
-    const { email,password } = req.body;
 
-    const user = await User.findOne({email});
-    if(!user) {
-        return res.status(404).json({message:"Invaid Email"})
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+  
+    const user = await User.findOne({ email }).select("+password");
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Invaid Email"
+      });
     }
 
-    const ismatch = await user.comparePassword(password);
-    if(!ismatch){
-        return res.status(403).json({message:"The password Incorrect!"})
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid password"
+      });
     }
+
 
     const token = jwt.sign(
-        { userId: user._id },
-        process.env.JWT_SECRET,
-        { expiresIn:"1d" }
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
     );
 
     res.json({
-        message:"Login successful",
-        token
-    })
+      success: true,
+      message: "Login successful",
+      token
+    });
+
+  } catch (error) {
+  console.error("AUTH ERROR:", error);
+  res.status(500).json({
+    success: false,
+    message: "Server error"
+  });
 }
-
-
+};
