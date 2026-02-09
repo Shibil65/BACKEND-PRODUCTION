@@ -1,9 +1,10 @@
-const express = require("express")
-const protect = require("../middleware/auth.middleware")
-const { getTasks } =  require("../controllers/task.Controller");
-
+// routes/taskRoutes.js
+const express = require("express");
 const router = express.Router();
 
-router.get("/tasks", getTasks);
+const { getTasks } = require("../controllers/task.controller");
+const auth = require("../middleware/auth.middleware");
+
+router.get("/tasks", auth, getTasks);
 
 module.exports = router;
