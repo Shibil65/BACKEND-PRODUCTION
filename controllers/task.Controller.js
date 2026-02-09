@@ -4,6 +4,7 @@ const Task = require("../models/tasks");
 
 exports.getTasks = async (req, res) => {
   try {
+    
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
@@ -39,6 +40,7 @@ exports.getTasks = async (req, res) => {
       totalPages: Math.ceil(total / limit),
       tasks,
     });
+    
   } catch (error) {
     res.status(500).json({
       success: false,
