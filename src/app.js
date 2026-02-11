@@ -2,6 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const morganMiddleware = require("../middleware/morgan.middleware");
+const { swaggerUi, specs } = require("../utils/swagger");
 
 const app = express();
 
@@ -18,13 +19,16 @@ const authLimiter = rateLimit({
   legacyHeaders: false,
   message: {
     success: false,
-    message: "Too many login attempts. Try again after 15 minutes."
-  }
+    message: "Too many login attempts. Try again after 15 minutes.",
+  },
 });
 
 const authRoutes = require("../routes/auth.routes");
-app.use("/api/auth", authLimiter, authRoutes); 
+app.use("/api/auth", authLimiter, authRoutes);
+
 const taskRoutes = require("../routes/task.routes");
 app.use("/api", taskRoutes);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 module.exports = app;
