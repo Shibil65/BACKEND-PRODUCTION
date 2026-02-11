@@ -50,26 +50,26 @@ exports.getTasks = async (req, res) => {
 };
 
 
-// exports.createTask = async (req, res) => {
-//   try {
-//     const { title, description, status } = req.body;
+exports.createTask = async (req, res) => {
+  try {
+    const { title, description, status } = req.body;
 
-//     if (!title) {
-//       return res.status(400).json({ message: "Title is required" });
-//     }
+    if (!title) {
+      return res.status(400).json({ message: "Title is required" });
+    }
 
-//     const task = await Task.create({
-//       title,
-//       description,
-//       status,
-//       user: req.user.id,
-//     });
+    const task = await Task.create({
+      title,
+      description,
+      status,
+      user: req.user.id,
+    });
 
-//     res.status(201).json({
-//       success: true,
-//       task,
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
+    res.status(201).json({
+      success: true,
+      task,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
